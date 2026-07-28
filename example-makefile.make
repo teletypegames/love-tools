@@ -46,7 +46,7 @@ web: love
 	@echo "==> Patching player.js"
 	sed -i.bak "s|uri = 'nogame\.love'|uri = '$(LOVE_NAME)'|g" $(WEB_DIR)/player.js && rm $(WEB_DIR)/player.js.bak
 	@echo "==> Patching index.html"
-	sed -i.bak 's|<base href="/play/">|<base href="/play/$(PROJECT)/$(VERSION)/content/play">|g' $(WEB_DIR)/index.html && rm $(WEB_DIR)/index.html.bak
+	sed -i.bak 's|<base href="/play/">|<base href="/file/$(PROJECT)-$(VERSION)/">|g' $(WEB_DIR)/index.html && rm $(WEB_DIR)/index.html.bak
 	@echo "==> Web build ready in $(WEB_DIR)"
 
 export: love web
