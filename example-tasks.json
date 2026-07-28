@@ -1,0 +1,35 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    // Copy to .vscode/tasks.json.
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run Löve",
+            "type": "shell",
+            "command": "love .",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Build & Run Löve",
+            "type": "shell",
+            "command": "make clean && make build && love .",
+            "problemMatcher": []
+        },
+        {
+            "label": "Build .love package",
+            "type": "shell",
+            "command": "make love",
+            "problemMatcher": []
+        },
+        {
+            "label": "Make build",
+            "type": "shell",
+            "command": "make build"
+        }
+    ]
+}
