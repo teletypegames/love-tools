@@ -6,9 +6,8 @@ steps:
       - make ci-version
 
   - name: export
-    image: alpine
+    image: git.teletype.hu/internal/love-builder:latest
     commands:
-      - apk add --no-cache zip make curl unzip
       - make ci-export
 
   - name: upload

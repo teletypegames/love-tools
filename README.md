@@ -29,4 +29,20 @@ The pipeline uploads `$(PROJECT)-$(VERSION).love.zip`,
 the droparea, then triggers `/update` twice: once with `platform=love`
 (desktop package) and once with `platform=love-web` (web build).
 
+## Builder image
+
+`builder.Dockerfile` bakes the pipeline's export-step dependencies
+(zip/unzip/curl/make + `luac` for the syntax check) into
+`git.teletype.hu/internal/love-builder`, and pre-fetches love.js to
+`/opt/lovejs.zip` — the Makefile uses the cached copy when present
+and only falls back to downloading from GitHub outside the image:
+
+```sh
+docker build --platform linux/amd64 -f builder.Dockerfile \
+  -t git.teletype.hu/internal/love-builder:latest .
+docker push git.teletype.hu/internal/love-builder:latest
+```
+
+Rebuild the image to pick up a newer love.js snapshot.
+
 Detailed documentation lives on the wiki: `/development/love`.
