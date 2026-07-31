@@ -33,14 +33,14 @@ the droparea, then triggers `/update` twice: once with `platform=love`
 
 `builder.Dockerfile` bakes the pipeline's export-step dependencies
 (zip/unzip/curl/make + `luac` for the syntax check) into
-`git.teletype.hu/internal/love-builder`, and pre-fetches love.js to
+`git.teletypegames.org/internal/love-builder`, and pre-fetches love.js to
 `/opt/lovejs.zip` — the Makefile uses the cached copy when present
 and only falls back to downloading from GitHub outside the image:
 
 ```sh
 docker build --platform linux/amd64 -f builder.Dockerfile \
-  -t git.teletype.hu/internal/love-builder:latest .
-docker push git.teletype.hu/internal/love-builder:latest
+  -t git.teletypegames.org/internal/love-builder:latest .
+docker push git.teletypegames.org/internal/love-builder:latest
 ```
 
 Rebuild the image to pick up a newer love.js snapshot.

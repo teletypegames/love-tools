@@ -6,7 +6,7 @@ steps:
       - make ci-version
 
   - name: export
-    image: git.teletype.hu/internal/love-builder:latest
+    image: git.teletypegames.org/internal/love-builder:latest
     commands:
       - make ci-export
 

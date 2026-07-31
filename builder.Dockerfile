@@ -4,8 +4,8 @@
 #
 # Build & push (the CI runner is linux/amd64):
 #   docker build --platform linux/amd64 -f builder.Dockerfile \
-#     -t git.teletype.hu/internal/love-builder:latest .
-#   docker push git.teletype.hu/internal/love-builder:latest
+#     -t git.teletypegames.org/internal/love-builder:latest .
+#   docker push git.teletypegames.org/internal/love-builder:latest
 
 FROM alpine:3.22
 
