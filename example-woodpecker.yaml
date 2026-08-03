@@ -7,11 +7,13 @@ steps:
 
   - name: export
     image: git.teletypegames.org/internal/love-builder:latest
+    pull: true
     commands:
       - make ci-export
 
   - name: binaries
     image: git.teletypegames.org/internal/love-builder:latest
+    pull: true
     commands:
       - make ci-binaries
 
