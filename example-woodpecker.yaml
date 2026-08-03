@@ -10,6 +10,11 @@ steps:
     commands:
       - make ci-export
 
+  - name: binaries
+    image: git.teletypegames.org/internal/love-builder:latest
+    commands:
+      - make ci-binaries
+
   - name: upload
     image: alpine
     environment:
