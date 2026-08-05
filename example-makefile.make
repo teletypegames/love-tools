@@ -199,13 +199,15 @@ ci-upload:
 	for slug in $(BINARY_SLUGS); do \
 		[ -f "$(PROJECT)-$$VERSION-$$slug.zip" ] && BINS="$$BINS $(PROJECT)-$$VERSION-$$slug.zip"; \
 	done; \
-	sshpass -p "$(DROPAREA_SSH_PASSWORD)" scp -o StrictHostKeyChecking=no -P $(DROPAREA_PORT) \
-		$$FILE_LOVE $$FILE_WEB $$META_DST $$BINS \
-		$(DROPAREA_USER)@$(DROPAREA_HOST):$(DROPAREA_TARGET_PATH)/
+	for f in $$FILE_LOVE $$FILE_WEB $$META_DST $$BINS; do \
+		curl -fsS -H "X-Update-Secret: $(UPDATE_SECRET)" \
+			-F "file=@$$f" \
+			"$(UPDATE_SERVER)/build/upload?name=$(PROJECT)&version=$$VERSION" || exit 1; \
+	done
 
 ci-update:
 	@VERSION=$$(cat $(VERSION_FILE)); \
-	curl "$(UPDATE_SERVER)/update?secret=$(UPDATE_SECRET)&name=$(PROJECT)&platform=love&version=$$VERSION"; \
-	curl "$(UPDATE_SERVER)/update?secret=$(UPDATE_SECRET)&name=$(PROJECT)&platform=love-web&version=$$VERSION"
+	curl -fsS -X POST -H "X-Update-Secret: $(UPDATE_SECRET)" "$(UPDATE_SERVER)/build/publish?name=$(PROJECT)&platform=love&version=$$VERSION"; \
+	curl -fsS -X POST -H "X-Update-Secret: $(UPDATE_SECRET)" "$(UPDATE_SERVER)/build/publish?name=$(PROJECT)&platform=love-web&version=$$VERSION"
 
 .PHONY: all build love web export binaries binary-win binary-mac binary-linux watch clean ci-version ci-export ci-binaries ci-upload ci-update
