@@ -6,7 +6,7 @@ projects, in the same spirit as [tic80-tools](../tic80-tools).
 - `example-makefile.make` — project Makefile: local dev targets
   (`build`, `love`, `web`, `export`, `binaries`, `watch`, `clean`)
   plus the Woodpecker pipeline targets (`ci-version`, `ci-export`,
-  `ci-binaries`, `ci-upload`, `ci-update`).
+  `ci-binaries`, `ci-upload`, `ci-publish`).
 - `example-woodpecker.yaml` — Woodpecker pipeline: version → export
   (`.love` package + love.js web build) → binaries (fused desktop
   builds) → upload (HTTP POST to `/build/upload`) → update (calls the
