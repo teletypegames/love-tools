@@ -1,38 +1,5 @@
-steps:
-  - name: version
-    image: alpine
-    commands:
-      - apk add --no-cache git make jq
-      - make ci-version
-
-  - name: export
-    image: git.teletypegames.org/internal/love-builder:latest
-    pull: true
-    commands:
-      - make ci-export
-
-  - name: binaries
-    image: git.teletypegames.org/internal/love-builder:latest
-    pull: true
-    commands:
-      - make ci-binaries
-
-  - name: upload
-    image: alpine
-    environment:
-      UPDATE_SERVER: https://teletypegames.org
-      UPDATE_SECRET:
-        from_secret: update_secret_key
-    commands:
-      - apk add --no-cache make curl
-      - make ci-upload
-
-  - name: publish
-    image: alpine
-    environment:
-      UPDATE_SERVER: https://teletypegames.org
-      UPDATE_SECRET:
-        from_secret: update_secret_key
-    commands:
-      - apk add --no-cache make curl
-      - make ci-publish
+# One-line marker: the full pipeline is served by the update server's
+# Woodpecker configuration extension. Preview it with:
+#   curl "https://teletypegames.org/build/config?platform=love"
+platform: love
+# name: mygame   # only when the software name differs from the repo name

@@ -12,8 +12,6 @@ OUTPUT_LOVE = $(DIST_DIR)/$(LOVE_NAME)
 OUTPUT_ZIP      = $(PROJECT)-$(VERSION).love.zip
 OUTPUT_WEB_ZIP  = $(PROJECT)-$(VERSION).html.zip
 
-VERSION_FILE = .version
-
 # The love-builder CI image pre-fetches love.js here; local builds fall
 # back to downloading it from GitHub.
 LOVEJS_URL   = https://github.com/2dengine/love.js/archive/refs/heads/master.zip
@@ -168,46 +166,4 @@ watch:
 clean:
 	rm -rf $(BIN_DIR) $(DIST_DIR)
 
-ci-version:
-	@if [ -f metadata.json ]; then \
-		VERSION=$$(jq -r '.version' metadata.json); \
-	else \
-		VERSION=$$(git rev-parse --short HEAD); \
-	fi; \
-	BRANCH=$$(git rev-parse --abbrev-ref HEAD); \
-	if [ "$$BRANCH" != "main" ] && [ "$$BRANCH" != "master" ]; then \
-		VERSION="dev-$$VERSION-$$BRANCH"; \
-	fi; \
-	echo $$VERSION > $(VERSION_FILE)
-
-ci-export:
-	@VERSION=$$(cat $(VERSION_FILE)); \
-	$(MAKE) export VERSION=$$VERSION
-
-ci-binaries:
-	@VERSION=$$(cat $(VERSION_FILE)); \
-	$(MAKE) binaries VERSION=$$VERSION
-
-ci-upload:
-	@VERSION=$$(cat $(VERSION_FILE)); \
-	FILE_LOVE="$(PROJECT)-$$VERSION.love.zip"; \
-	FILE_WEB="$(PROJECT)-$$VERSION.html.zip"; \
-	META_SRC="metadata.json"; \
-	META_DST="$(PROJECT)-$$VERSION.metadata.json"; \
-	cp $$META_SRC $$META_DST; \
-	BINS=""; \
-	for slug in $(BINARY_SLUGS); do \
-		[ -f "$(PROJECT)-$$VERSION-$$slug.zip" ] && BINS="$$BINS $(PROJECT)-$$VERSION-$$slug.zip"; \
-	done; \
-	for f in $$FILE_LOVE $$FILE_WEB $$META_DST $$BINS; do \
-		curl -fsS -H "X-Update-Secret: $(UPDATE_SECRET)" \
-			-F "file=@$$f" \
-			"$(UPDATE_SERVER)/build/upload?name=$(PROJECT)&version=$$VERSION" || exit 1; \
-	done
-
-ci-publish:
-	@VERSION=$$(cat $(VERSION_FILE)); \
-	curl -fsS -X POST -H "X-Update-Secret: $(UPDATE_SECRET)" "$(UPDATE_SERVER)/build/publish?name=$(PROJECT)&platform=love&version=$$VERSION"; \
-	curl -fsS -X POST -H "X-Update-Secret: $(UPDATE_SECRET)" "$(UPDATE_SERVER)/build/publish?name=$(PROJECT)&platform=love-web&version=$$VERSION"
-
-.PHONY: all build love web export binaries binary-win binary-mac binary-linux watch clean ci-version ci-export ci-binaries ci-upload ci-publish
+.PHONY: all build love web export binaries binary-win binary-mac binary-linux watch clean

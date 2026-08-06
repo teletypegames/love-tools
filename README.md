@@ -4,13 +4,11 @@ CI/CD templates for [LÖVE](https://love2d.org) (Love2D/Lua) game
 projects, in the same spirit as [tic80-tools](../tic80-tools).
 
 - `example-makefile.make` — project Makefile: local dev targets
-  (`build`, `love`, `web`, `export`, `binaries`, `watch`, `clean`)
-  plus the Woodpecker pipeline targets (`ci-version`, `ci-export`,
-  `ci-binaries`, `ci-upload`, `ci-publish`).
-- `example-woodpecker.yaml` — Woodpecker pipeline: version → export
-  (`.love` package + love.js web build) → binaries (fused desktop
-  builds) → upload (HTTP POST to `/build/upload`) → update (calls the
-  teletypegames `/build/publish` endpoint with `platform=love`).
+  (`build`, `love`, `web`, `export`, `binaries`, `watch`, `clean`).
+- `example-woodpecker.yaml` — a one-line marker (`platform: love`): the
+  full pipeline (version → export → binaries → upload → publish) is served by the update server's Woodpecker
+  configuration extension — preview it with
+  `curl "https://teletypegames.org/build/config?platform=love"`.
 - `example-tasks.json` — VS Code `.vscode/tasks.json` with the common
   dev tasks: **Run Löve** (`love .`, default build task,
   `Cmd+Shift+B`), **Build & Run Löve**, **Build .love package** and
@@ -20,19 +18,20 @@ projects, in the same spirit as [tic80-tools](../tic80-tools).
 
 1. Copy `example-makefile.make` to `Makefile` and set `PROJECT`
    (the package is built as `dist/$(PROJECT).love`).
-2. Copy `example-woodpecker.yaml` to `.woodpecker.yaml` and add the
-   `update_secret_key` secret in Woodpecker.
+2. Copy `example-woodpecker.yaml` to `.woodpecker.yaml` (a one-line marker — the
+   pipeline itself is served by the update server; add `name:` when the
+   software name differs from the repo name) and add the
+   `application_token` secret in Woodpecker (an ApplicationToken with
+   the `update` + `upload` scopes, created in the admin).
 3. Copy `example-tasks.json` to `.vscode/tasks.json`.
 
-The pipeline uploads `$(PROJECT)-$(VERSION).love.zip`,
+The served pipeline uploads `$(PROJECT)-$(VERSION).love.zip`,
 `$(PROJECT)-$(VERSION).html.zip`, the versioned `metadata.json` and
 the fused binary zips (`-win-x64.zip`, `-mac-universal.zip`,
-`-linux-x64.zip`) via `/build/upload`, then triggers `/build/publish` twice: once
-with `platform=love` (desktop package) and once with
-`platform=love-web` (web build). The API's `BinaryAttachment` concern
-picks up the `<name>-<version>-<slug>.zip` files automatically and
-registers them as `win_x64` / `mac_universal` / `linux_x64` release
-assets.
+`-linux-x64.zip`) via `/build/upload`, then triggers `/build/publish`
+with `platform=love`. The API's `BinaryAttachment` concern picks up
+the `<name>-<version>-<slug>.zip` files automatically and registers
+them as `win_x64` / `mac_universal` / `linux_x64` release assets.
 
 ## Native (fused) binaries
 
