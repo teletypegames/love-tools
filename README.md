@@ -55,15 +55,15 @@ LÖVE $(LOVE_VERSION) release artifacts — no compilation involved:
 `builder.Dockerfile` bakes the pipeline's export-step dependencies
 (zip/unzip/curl/make + `luac` for the syntax check, squashfs-tools +
 binutils for the AppImage fusing) into
-`git.teletypegames.org/internal/love-builder`, and pre-fetches love.js to
+`git.teletypegames.org/build/love-builder`, and pre-fetches love.js to
 `/opt/lovejs.zip` plus the official LÖVE dist files to
 `/opt/love-dist/` — the Makefile uses the cached copies when present
 and only falls back to downloading from GitHub outside the image:
 
 ```sh
 docker build --platform linux/amd64 -f builder.Dockerfile \
-  -t git.teletypegames.org/internal/love-builder:latest .
-docker push git.teletypegames.org/internal/love-builder:latest
+  -t git.teletypegames.org/build/love-builder:latest .
+docker push git.teletypegames.org/build/love-builder:latest
 ```
 
 Rebuild the image to pick up a newer love.js snapshot or LÖVE
