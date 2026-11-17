@@ -13,6 +13,12 @@ projects, in the same spirit as [tic80-tools](../tic80-tools).
   dev tasks: **Run Löve** (`love .`, default build task,
   `Cmd+Shift+B`), **Build & Run Löve**, **Build .love package** and
   **Make build**.
+- `hello/main.lua` — a minimal Hello World game (copied as `main.lua`).
+- `warp-template.json` — what the WarpEngine Toolbox's *New Game*
+  copies from this repo ("Start from the template only"): the
+  Makefile, the VS Code tasks and the Hello World. The toolbox writes
+  `.woodpecker.yaml`, `metadata.json`, `README.md` and `.gitignore`
+  itself, so the new project builds and shows "Hello World" as is.
 
 ## Usage in a game repo
 

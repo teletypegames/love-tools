@@ -1,0 +1,7 @@
+{
+  "files": {
+    "example-makefile.make": "Makefile",
+    "example-tasks.json": ".vscode/tasks.json",
+    "hello/main.lua": "main.lua"
+  }
+}
