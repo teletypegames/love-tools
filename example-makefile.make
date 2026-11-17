@@ -3,6 +3,7 @@
 # -----------------------------------------
 
 PROJECT = love2ddemo
+BUNDLE_ID_PREFIX ?= org.warpengine
 
 BIN_DIR     = bin
 DIST_DIR    = dist
@@ -119,7 +120,7 @@ binary-mac: love
 	cp $(OUTPUT_LOVE) "$$PKG_DIR/$(PROJECT).app/Contents/Resources/"; \
 	PLIST="$$PKG_DIR/$(PROJECT).app/Contents/Info.plist"; \
 	sed -i.bak "s|<string>LÖVE</string>|<string>$(PROJECT)</string>|g" "$$PLIST" && rm "$$PLIST.bak"; \
-	sed -i.bak "s|org\.love2d\.love|org.teletypegames.$(PROJECT)|g" "$$PLIST" && rm "$$PLIST.bak"; \
+	sed -i.bak "s|org\.love2d\.love|$(BUNDLE_ID_PREFIX).$(PROJECT)|g" "$$PLIST" && rm "$$PLIST.bak"; \
 	zip -qry "$$PKG_DIR.zip" "$$PKG_DIR"; \
 	rm -rf "$$PKG_DIR" $(DIST_DIR)/macos; \
 	echo "==> $$PKG_DIR.zip kesz"
