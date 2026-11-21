@@ -78,10 +78,12 @@ binutils for the AppImage fusing) into
 `/opt/love-dist/` — the Makefile uses the cached copies when present
 and only falls back to downloading from GitHub outside the image:
 
+It is the base of the dev container too, so it is built for amd64 (the CI
+runner) and arm64 (Apple Silicon); both get the same packages:
+
 ```sh
-docker build --platform linux/amd64 -f builder.Dockerfile \
-  -t git.teletypegames.org/build/love-builder:latest .
-docker push git.teletypegames.org/build/love-builder:latest
+docker buildx build --platform linux/amd64,linux/arm64 -f builder.Dockerfile \
+  -t git.teletypegames.org/build/love-builder:latest --push .
 ```
 
 Rebuild the image to pick up a newer love.js snapshot or LÖVE

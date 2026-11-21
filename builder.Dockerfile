@@ -7,10 +7,13 @@
 # the Makefile computes the squashfs offset with readelf and repacks with
 # mksquashfs instead.
 #
-# Build & push (the CI runner is linux/amd64):
-#   docker build --platform linux/amd64 -f builder.Dockerfile \
-#     -t git.teletypegames.org/build/love-builder:latest .
-#   docker push git.teletypegames.org/build/love-builder:latest
+# It is also the base of a project's dev container (.devcontainer/Dockerfile),
+# so it is built for amd64 (the CI runner) and arm64 (Apple Silicon) alike;
+# both carry the same packages.
+#
+# Build & push (a docker-container buildx builder):
+#   docker buildx build --platform linux/amd64,linux/arm64 -f builder.Dockerfile \
+#     -t git.teletypegames.org/build/love-builder:latest --push .
 
 FROM alpine:3.22
 
