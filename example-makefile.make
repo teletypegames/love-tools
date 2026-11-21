@@ -25,6 +25,9 @@ build:
 	@echo "==> Checking Love2D syntax"
 	luac -p *.lua 2>/dev/null || true
 
+run: build
+	love .
+
 love:
 	@mkdir -p $(DIST_DIR)
 	@echo "==> Building .love package"
@@ -167,4 +170,4 @@ watch:
 clean:
 	rm -rf $(BIN_DIR) $(DIST_DIR)
 
-.PHONY: all build love web export binaries binary-win binary-mac binary-linux watch clean
+.PHONY: run all build love web export binaries binary-win binary-mac binary-linux watch clean

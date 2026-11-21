@@ -1,35 +1,31 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
-    // Copy to .vscode/tasks.json.
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "Run Löve",
-            "type": "shell",
-            "command": "love .",
-            "problemMatcher": [],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {
-            "label": "Build & Run Löve",
-            "type": "shell",
-            "command": "make clean && make build && love .",
-            "problemMatcher": []
-        },
-        {
-            "label": "Build .love package",
-            "type": "shell",
-            "command": "make love",
-            "problemMatcher": []
-        },
-        {
-            "label": "Make build",
-            "type": "shell",
-            "command": "make build"
-        }
-    ]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "detail": "Checks the Lua syntax",
+      "type": "warpengine",
+      "target": "build",
+      "group": { "kind": "build", "isDefault": true }
+    },
+    {
+      "label": "love package",
+      "detail": "Builds the .love package",
+      "type": "warpengine",
+      "target": "love"
+    },
+    {
+      "label": "web",
+      "detail": "Builds the web version (love.js) into dist/web",
+      "type": "warpengine",
+      "target": "web"
+    },
+    {
+      "label": "run (LÖVE)",
+      "detail": "Runs the game in LÖVE on this computer: needs a local love, does not run in the dev container",
+      "type": "warpengine",
+      "target": "run",
+      "host": true
+    }
+  ]
 }

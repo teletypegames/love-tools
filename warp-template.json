@@ -3,5 +3,16 @@
     "example-makefile.make": "Makefile",
     "example-tasks.json": ".vscode/tasks.json",
     "hello/main.lua": "main.lua"
+  },
+  "devcontainer": {
+    "files": {
+      "example-devcontainer.json": ".devcontainer/devcontainer.json",
+      "example-devcontainer.Dockerfile": ".devcontainer/Dockerfile"
+    },
+    "fill": [
+      "example-devcontainer.json",
+      "example-devcontainer.Dockerfile"
+    ],
+    "tasks": "example-devcontainer-tasks.json"
   }
 }
